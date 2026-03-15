@@ -10,8 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
-
-healthcheck:
+    healthcheck:
       test: ["CMD", "pg_isready", "-U", "qa_user"]
       interval: 5s
       timeout: 5s
@@ -25,8 +24,7 @@ healthcheck:
     image: adminer:latest
     ports:
       - "8888:8080"
-
-depends_on:
+    depends_on:
       db:
         condition: service_healthy
 
