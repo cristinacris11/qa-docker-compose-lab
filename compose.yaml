@@ -11,6 +11,13 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
+healthcheck:
+      test: ["CMD", "pg_isready", "-U", "qa_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
   cache:
     image: redis:7-alpine
 
@@ -18,6 +25,10 @@ services:
     image: adminer:latest
     ports:
       - "8888:8080"
+
+depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   db-data:
